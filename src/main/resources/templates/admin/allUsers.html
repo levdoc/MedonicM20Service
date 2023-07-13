@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи системы</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h3><p align="center"> Все пользователи системы</p></h3>
+
+    <table class="table table-striped">
+        <thead>
+
+        <tr>
+            <th scope="col">ИД</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Логин</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Роль пользователя</th>
+            <th scope="col">Блокировка доступа</th>
+            <th scope="col">Удалить</th>
+            <th></th>
+        </tr>
+
+        </thead>
+
+        <tr th:each="user : ${users}">
+            <td>
+                <a th:href="'/admin/getinfo/user/' + ${user.id}" th:text="${user.getId()}"></a>
+            </td>
+            <td th:text="${user.getFirstName()}"></td>
+            <td th:text="${user.getMiddleName()}"></td>
+            <td th:text="${user.getLastName()}"></td>
+            <td th:text="${user.getLogin()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getRole().getRoleTextDisplay()}"></td>
+            <td>
+                <a th:if="${!user.isBlocked()}" th:href="'/admin/block/user/' + ${user.id}"
+                   onclick="return confirm('Вы действительно хотите заблокировать пользователя?')">Заблокировать</a>
+                <a th:if="${user.isBlocked()}" th:href="'/admin/unblock/user/' + ${user.id}"
+                   onclick="return confirm('Вы действительно хотите разблокировать пользователя?')">Разблокировать</a>
+            </td>
+            <td>
+                <a th:href="'/admin/delete/user/' + ${user.id}"
+                   onclick="return confirm('Вы действительно хотите удалить пользователя?')">Удалить</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+</body>
+</html>

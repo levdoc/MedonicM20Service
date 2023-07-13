@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Лаборант: исследования</title>
+</head>
+<body>
+<form layout:fragment="content">
+
+    <div>
+        <hr class="hr"/>
+        <h3>Поиск исследования</h3>
+        <form method="POST" th:action="@{/labworker/search/date}" th:object="${analysSearch}">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input name="appointmentDate" type="date" class="form-control" id="appointmentDate"
+                           placeholder="Дата назначения">
+                    <label for="appointmentDate">Дата назначения</label>
+                </div>
+            </div>
+            <div class="row g-2">
+                <button type="submit" class="btn btn-secondary">Найти исследования</button>
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <div>
+
+        <h3><p align="center">Направления и результаты проведенных исследований</p></h3>
+
+        <table class="table table-striped">
+            <thead>
+
+            <tr>
+                <th scope="col">Номер исследования</th>
+                <th scope="col">Дата назначения</th>
+                <th scope="col">Дата выполнения</th>
+                <th scope="col">Эритроциты (*10^12/л)</th>
+                <th scope="col">Гемоглобин (г/л)</th>
+                <th scope="col">Гематокрит (%)</th>
+                <th scope="col">Тромбоциты (*10^9/л)</th>
+                <th scope="col">Лейкоциты (*10^9/л)</th>
+                <th scope="col">Средние клетки (%)</th>
+                <th scope="col">Лимфоциты (%)</th>
+                <th scope="col">Гранулоциты (%)</th>
+                <th scope="col">Одобрен</th>
+                <th></th>
+            </tr>
+
+            </thead>
+
+            <tr th:each="analys : ${analysis}">
+                <td th:text="${analys.getId()}"></td>
+                <td th:text="${analys.getAppointmentDate()}"></td>
+                <td th:text="${analys.getDateOfCompletion()}"></td>
+                <td th:text="${analys.getRbc()}"></td>
+                <td th:text="${analys.getHgb()}"></td>
+                <td th:text="${analys.getHct()}"></td>
+                <td th:text="${analys.getPlt()}"></td>
+                <td th:text="${analys.getWbc()}"></td>
+                <td th:text="${analys.getMidPr()}"></td>
+                <td th:text="${analys.getLymPr()}"></td>
+                <td th:text="${analys.getGraPr()}"></td>
+                <td>
+                    <a th:if="${!analys.getIsApproved()}" th:href="'/labworker/approved/analys/' + ${analys.id}"
+                       onclick="return confirm('Вы действительно хотите одобрить результат исследования?')">Нет</a>
+                    <a th:if="${analys.getIsApproved()}">Да</a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-outline-success" th:if="${!analys.getIsApproved()}"
+                       th:href="'/labworker/edit/analys/' + ${analys.id}">Редактировать</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

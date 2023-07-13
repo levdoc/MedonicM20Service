@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр информации о пациенте</title>
+</head>
+<body>
+<form layout:fragment="content">
+    <div>
+        <h3 align="center" th:text="'Информация о пациенте: ' + ${patient.getFirstName()}
+        + ' ' + ${patient.getMiddleName()} + ' ' + ${patient.getLastName()}"></h3>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
+
+        <!--        Вертикальная таблица с данными о пациенте-->
+
+        <table class="table table-striped">
+            <tr>
+                <th>ФИО Пациента</th>
+                <td th:text="${patient.getFirstName()}
+        + ' ' + ${patient.getMiddleName()} + ' ' + ${patient.getLastName()}"></td>
+            </tr>
+            <tr>
+                <th>Дата рождения</th>
+                <td th:text="${patient.getDateOfBirth()}"></td>
+            </tr>
+            <tr>
+                <th>Пол</th>
+                <td th:text="${patient.getSex().getSexTextDisplay()}"></td>
+            </tr>
+            <tr>
+                <th>E-mail</th>
+                <td th:text="${patient.getEmail()}"></td>
+            </tr>
+            <tr>
+                <th>Дата регистрации</th>
+                <td th:text="${patient.getDateOfRegistration()}"></td>
+            </tr>
+            <tr>
+                <th>UUID</th>
+                <td th:text="${patient.getUuid()}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!--        Горизонтальная таблица с данными о результатах исследования пациента -->
+
+    <h3><p align="center">Результаты проведенных исследований</p></h3>
+
+    <table class="table table-striped">
+        <thead>
+
+        <tr>
+            <th scope="col">Номер исследования</th>
+            <th scope="col">Дата назначения</th>
+            <th scope="col">Дата выполнения</th>
+            <th scope="col">Эритроциты (*10^12/л)</th>
+            <th scope="col">Гемоглобин (г/л)</th>
+            <th scope="col">Гематокрит (%)</th>
+            <th scope="col">Тромбоциты (*10^9/л)</th>
+            <th scope="col">Лейкоциты (*10^9/л)</th>
+            <th scope="col">Средние клетки (%)</th>
+            <th scope="col">Лимфоциты (%)</th>
+            <th scope="col">Гранулоциты (%)</th>
+            <th scope="col">Одобрен</th>
+        </tr>
+
+        </thead>
+
+        <tr>
+            <td th:text="${analyse.getId()}"></td>
+            <td th:text="${analyse.getAppointmentDate()}"></td>
+            <td th:text="${analyse.getDateOfCompletion()}"></td>
+            <td th:text="${analyse.getRbc()}"></td>
+            <td th:text="${analyse.getHgb()}"></td>
+            <td th:text="${analyse.getHct()}"></td>
+            <td th:text="${analyse.getPlt()}"></td>
+            <td th:text="${analyse.getWbc()}"></td>
+            <td th:text="${analyse.getMidPr()}"></td>
+            <td th:text="${analyse.getLymPr()}"></td>
+            <td th:text="${analyse.getGraPr()}"></td>
+            <td th:text="${analyse.getIsApproved()}"></td>
+        </tr>
+
+    </table>
+
+</form>
+</body>
+</html>

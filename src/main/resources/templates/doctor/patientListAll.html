@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Список пациентов</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h3><p align="center">Пациенты</p></h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ИД</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Пол</th>
+            <th scope="col">UUID</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Дата регистрации</th>
+            <th scope="col">Исследования</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.getId()}"></td>
+            <td th:text="${patient.getLastName()}"></td>
+            <td th:text="${patient.getFirstName()}"></td>
+            <td th:text="${patient.getMiddleName()}"></td>
+            <td th:text="${patient.getDateOfBirth()}"></td>
+            <td th:text="${patient.getSex().getSexTextDisplay()}"></td>
+            <td th:text="${patient.getUuid()}"></td>
+            <td th:text="${patient.getEmail()}"></td>
+            <td th:text="${patient.getDateOfRegistration()}"></td>
+            <td>
+                <a th:href="'/doctor/view/patient/info/' + ${patient.id}" th:text="Исследования"></a>
+            </td>
+        </tr>
+
+    </table>
+
+    <div>
+        <nav aria-label="Pagination" th:if="${patients.totalPages gt 0}">
+            <ul class="pagination justify-content-center font-weight-bold">
+                <li class="page-item" th:classappend="${patients.number eq 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/doctor/get/all/patients?page={id}(id=${patients.number lt 2 ? 1 : patients.number})}"
+                       aria-label="Previous" title="Предыдущая страница" data-toggle="tooltip">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i eq patients.number + 1} ? 'active'"
+                    th:each="i : ${#numbers.sequence( 1, patients.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/doctor/get/all/patients?page={id}(id=${i})}" th:text="${i}"
+                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                </li>
+                <li class="page-item" th:classappend="${patients.number eq patients.totalPages - 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/doctor/get/all/patients?page={id}(id=${patients.number + 2})}"
+                       aria-label="Next" title="Следующая страница" data-toggle="tooltip">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+</body>
+</html>

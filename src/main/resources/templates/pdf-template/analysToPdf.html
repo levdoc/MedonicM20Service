@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="ru">
+<head>
+<!--    <meta charset="UTF-8">-->
+    <title>Просмотр информации о пациенте</title>
+    <style>
+        h1{
+            color: darkgray;
+        }
+        .quotation {
+            width: 60%;
+        }
+        .quotation, .quotation th, .quotation td {
+            border: 1px solid dimgray;
+            border-collapse: collapse;
+            font-size: 8px;
+            align-items: center;
+        }
+        .quotation th {
+            background-color: lightskyblue;
+            color: white;
+            font-size: 8px;
+        }
+        h1{
+            color: darkgray;
+            font-size: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <font size="5" color="red" face="Arial">ООО Лаборатория Рога и Копыта</font>
+        <h5 align="center">Результаты проведенного гематологичсекого исследования</h5>
+        <h5 align="center">Оборудование: Medonic M20</h5>
+    </div>
+
+    <div th:if="${qrcode}">
+        <div class="d-flex justify-content-center">
+            <div class="card" >
+                <div style="text-align: left;" class="card-header">
+                    <h5>Личный кабинет QR Code</h5></div>
+                <div class="card-body">
+                    <img th:src="${'data:image/png;base64,' + qrcode}" alt="" height="100" width="100">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+        <!--        Вертикальная таблица с данными о пациенте-->
+
+        <table class="quotation">
+            <tr>
+                <th>ФИО Пациента</th>
+                <td th:text="${result.getFirstName()}
+        + ' ' + ${result.getMiddleName()} + ' ' + ${result.getLastName()}"></td>
+            </tr>
+            <tr>
+                <th>Дата рождения</th>
+                <td th:text="${result.getDateOfBirth()}"></td>
+            </tr>
+            <tr>
+                <th>Пол</th>
+                <td th:text="${result.getSex().getSexTextDisplay()}"></td>
+            </tr>
+            <tr>
+                <th>E-mail</th>
+                <td th:text="${result.getEmail()}"></td>
+            </tr>
+            <tr>
+                <th>Дата регистрации</th>
+                <td th:text="${result.getDateOfRegistration()}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!--        Горизонтальная таблица с данными о результатах исследования пациента -->
+
+    <h3><p align="center">Результаты проведенных исследований</p></h3>
+
+    <table class="quotation">
+        <thead>
+
+        <tr>
+            <th scope="col">Номер исследования</th>
+            <th scope="col">Дата назначения</th>
+            <th scope="col">Дата выполнения</th>
+            <th scope="col">Эритроциты (*10^12/л)</th>
+            <th scope="col">Гемоглобин (г/л)</th>
+            <th scope="col">Гематокрит (%)</th>
+            <th scope="col">Тромбоциты (*10^9/л)</th>
+            <th scope="col">Лейкоциты (*10^9/л)</th>
+            <th scope="col">Средние клетки (%)</th>
+            <th scope="col">Лимфоциты (%)</th>
+            <th scope="col">Гранулоциты (%)</th>
+            <th scope="col">Одобрен</th>
+        </tr>
+
+        </thead>
+
+        <tr th:each="analyse : ${result.getGemAnalysisModelList()}">
+            <td th:text="${analyse.getId()}"></td>
+            <td th:text="${analyse.getAppointmentDate()}"></td>
+            <td th:text="${analyse.getDateOfCompletion()}"></td>
+            <td th:text="${analyse.getRbc()}"></td>
+            <td th:text="${analyse.getHgb()}"></td>
+            <td th:text="${analyse.getHct()}"></td>
+            <td th:text="${analyse.getPlt()}"></td>
+            <td th:text="${analyse.getWbc()}"></td>
+            <td th:text="${analyse.getMidPr()}"></td>
+            <td th:text="${analyse.getLymPr()}"></td>
+            <td th:text="${analyse.getGraPr()}"></td>
+<!--            <td th:text="${analyse.getIsApproved()}"></td>-->
+            <td>
+                <a th:if="${!analyse.getIsApproved()}">Нет</a>
+                <a th:if="${analyse.getIsApproved()}">Да</a>
+            </td>
+        </tr>
+
+    </table>
+</body>
+</html>

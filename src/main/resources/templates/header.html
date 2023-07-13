@@ -1,0 +1,70 @@
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+     th:fragment="header">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">На главную</a>
+        </li>
+        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN'))">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                   aria-expanded="false">Администратор</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/admin">Пользователи</a></li>
+                    <li><a class="dropdown-item" href="/admin/create/user">Регистрация пользователя</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <div sec:authorize="isAuthenticated() && (hasRole('DOCTOR'))">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                   aria-expanded="false">Доктор</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/doctor">Все мои пациенты</a></li>
+                    <li><a class="dropdown-item" href="/doctor/create/patient">Регистрация пациента</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/doctor/get/all/patients">Все пациенты</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <div sec:authorize="isAuthenticated() && (hasRole('LABWORKER'))">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                   aria-expanded="false">Лаборант</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/labworker">Все исследвоания</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/analysis/readfromfile">Загрузить результат</a></li>
+                </ul>
+            </li>
+        </div>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Авторизация</a>
+            <ul class="dropdown-menu" sec:authorize="!isAuthenticated()">
+                <li><a class="dropdown-item" href="/login">Войти</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+            </ul>
+            <ul class="dropdown-menu" sec:authorize="isAuthenticated()">
+                <li><a class="dropdown-item" href="/logout">Выйти</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>

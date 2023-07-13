@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Список пациентов</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h3><p align="center">Пациенты</p></h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ИД</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Пол</th>
+            <th scope="col">UUID</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Дата регистрации</th>
+            <th scope="col">Исследования</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.getId()}"></td>
+            <td th:text="${patient.getLastName()}"></td>
+            <td th:text="${patient.getFirstName()}"></td>
+            <td th:text="${patient.getMiddleName()}"></td>
+            <td th:text="${patient.getDateOfBirth()}"></td>
+            <td th:text="${patient.getSex().getSexTextDisplay()}"></td>
+            <td th:text="${patient.getUuid()}"></td>
+            <td th:text="${patient.getEmail()}"></td>
+            <td th:text="${patient.getDateOfRegistration()}"></td>
+            <td>
+                <a th:href="'/doctor/view/patient/info/' + ${patient.id}" th:text="Исследования"></a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+</body>
+</html>
